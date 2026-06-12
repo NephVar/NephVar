@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NephVar &middot; Inherited Kidney Disease Variant Databases</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --serif:'Instrument Serif',Georgia,serif; --sans:'Syne',system-ui,sans-serif; --mono:'DM Mono',ui-monospace,monospace;
+  --P:#c0392b;--LP:#e07b18;--VUS:#7f7f7f;--LB:#7fb3d5;--B:#1f6fa8;--accent:#1f6fa8;
+  --ink:#16202b;--soft:#5d6b78;--faint:#8a96a3;--line:#e6e9ee;--bg:#fbfaf7;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1020px;margin:0 auto;padding:60px 22px 80px}
+.kicker{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.brand{font-family:var(--serif);font-weight:400;font-size:64px;line-height:.95;letter-spacing:-.01em;margin:0}
+.brand .v{font-style:italic;color:var(--accent)}
+.tag{font-size:15.5px;line-height:1.55;color:var(--soft);max-width:640px;margin:16px 0 0;font-weight:400}
+.tag em{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:26px 0 0;font-family:var(--mono);font-size:10.5px;font-weight:400;color:var(--soft)}
+.legend span{display:inline-flex;align-items:center;gap:7px;text-transform:uppercase;letter-spacing:.1em}
+.dot{width:9px;height:9px;border-radius:99px;display:inline-block}
+.rule{height:1px;background:var(--line);margin:34px 0 28px;border:0}
+.shead{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{position:relative;display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:4px;padding:26px 24px 22px;overflow:hidden;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.card.soon::before{background:#d4dae0}
+.card.live:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(20,30,45,.13);border-color:#cdd9e4}
+.card.soon{opacity:.66}
+.cnum{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.12em;color:var(--faint);margin-bottom:12px}
+.abbr{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1;letter-spacing:0;margin-bottom:5px}
+.full{font-size:13px;font-weight:500;color:var(--soft);line-height:1.45;min-height:38px}
+.meta{font-family:var(--mono);font-size:10.5px;font-weight:400;color:var(--faint);margin:13px 0 10px;text-transform:uppercase;letter-spacing:.06em}
+.chips{display:flex;flex-wrap:wrap;gap:5px;min-height:24px;margin-bottom:18px}
+.chip{font-family:var(--mono);font-size:10px;font-weight:400;background:#f3f4f1;color:var(--soft);border:1px solid #e8e9e3;padding:2px 7px;border-radius:3px}
+.cta{font-family:var(--mono);font-size:12px;font-weight:400;letter-spacing:.04em;color:var(--accent)}
+.card.soon .cta{color:var(--faint)}
+.badge{position:absolute;top:22px;right:22px;font-family:var(--mono);font-size:9.5px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:99px}
+.badge.live{background:#e6f2ea;color:#1c7a44}
+.badge.soon{background:#eef0f2;color:#8a96a3}
+.foot{font-family:var(--mono);margin-top:40px;font-size:11px;font-weight:400;letter-spacing:.04em;color:var(--faint);line-height:1.8}
+.foot a{color:var(--accent);text-decoration:none}.foot a:hover{text-decoration:underline}
+.disc{font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:0;line-height:1.65;color:var(--faint);max-width:760px;margin:14px 0 0;text-transform:none}
+.disc .dlabel{font-weight:700;color:var(--soft)}
+@media(max-width:560px){.brand{font-size:48px}}
+</style></head><body><div class="wrap">
+<div class="kicker">The future of precision nephrology, today</div>
+<h1 class="brand">Neph<span class="v">Var</span></h1>
+<p class="tag">The NephVar database aims to be a <em>molecular dictionary</em> for nephrologists in defining the genetic architecture of early-onset chronic kidney disease, polycystic kidney disease, and other disorders of the kidney.</p>
+<div class="legend">
+  <span><i class="dot" style="background:var(--P)"></i>Pathogenic</span>
+  <span><i class="dot" style="background:var(--LP)"></i>Likely pathogenic</span>
+  <span><i class="dot" style="background:var(--VUS)"></i>Uncertain</span>
+  <span><i class="dot" style="background:var(--LB)"></i>Likely benign</span>
+  <span><i class="dot" style="background:var(--B)"></i>Benign</span>
+</div>
+<hr class="rule">
+<p class="shead">Disease Groups</p>
+<div class="grid">
+<a class="card live" href="CGN/"><div class="cnum">01 &mdash;</div><span class="badge live">Live</span>
+      <div class="abbr">CGN</div>
+      <div class="full">Complement &amp; Glomerulonephritis</div>
+      <div class="meta">10 genes &middot; ClinVar germline classifications</div>
+      <div class="chips"><span class="chip">C3</span><span class="chip">CD46</span><span class="chip">CFH</span><span class="chip">CFHR5</span><span class="chip">CFI</span><span class="chip">COL4A3</span><span class="chip">COL4A4</span><span class="chip">COL4A5</span><span class="chip">COL4A6</span><span class="chip">FN1</span></div>
+      <div class="cta">Open database &rarr;</div></a>
+<div class="card soon"><div class="cnum">02 &mdash;</div><span class="badge soon">Soon</span>
+      <div class="abbr">SRNS</div>
+      <div class="full">Steroid-Resistant Nephrotic Syndrome</div>
+      <div class="meta">Panel in preparation</div>
+      <div class="chips"></div>
+      <div class="cta">Coming soon</div></div>
+<div class="card soon"><div class="cnum">03 &mdash;</div><span class="badge soon">Soon</span>
+      <div class="abbr">CAKUT</div>
+      <div class="full">Congenital Anomalies of the Kidney &amp; Urinary Tract</div>
+      <div class="meta">Panel in preparation</div>
+      <div class="chips"></div>
+      <div class="cta">Coming soon</div></div>
+<div class="card soon"><div class="cnum">04 &mdash;</div><span class="badge soon">Soon</span>
+      <div class="abbr">NPHP-RC</div>
+      <div class="full">Nephronophthisis-Related Ciliopathies</div>
+      <div class="meta">Panel in preparation</div>
+      <div class="chips"></div>
+      <div class="cta">Coming soon</div></div>
+<div class="card soon"><div class="cnum">05 &mdash;</div><span class="badge soon">Soon</span>
+      <div class="abbr">USD</div>
+      <div class="full">Urinary Stone Disease</div>
+      <div class="meta">Panel in preparation</div>
+      <div class="chips"></div>
+      <div class="cta">Coming soon</div></div>
+</div>
+<div class="foot">
+  &copy; NephVar. Licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 License</a>.
+  <p class="disc"><span class="dlabel">Disclaimer:</span> The NephVar Database and other information provided on or linked to this site is for theoretical prediction only; caution should be exercised in use. It is provided &ldquo;as-is&rdquo; without any warranty of any kind, whether express or implied. For clarity, no warranty is given that use of the information shall not infringe the rights of any third party. The information provided is not intended to be a substitute for professional medical advice, diagnosis, or treatment, and does not constitute medical or other professional advice. Data contained within the NephVar Database is provided for non-commercial research use only under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0 license</a>.</p>
+</div>
+</div></body></html>
