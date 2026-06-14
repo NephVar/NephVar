@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UPK3A — NephVar Biophysical</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--serif:'Instrument Serif',Georgia,serif;--sans:'Syne',system-ui,sans-serif;
+--mono:'DM Mono',ui-monospace,monospace;--accent:#1f6fa8;--ink:#16202b;
+--soft:#5d6b78;--faint:#8a96a3;--line:#e6e9ee;--bg:#fbfaf7;
+--helix:#e07b18;--sheet:#1f6fa8;--loop:#c8ced4;
+--buried:#c0392b;--exposed:#2ecc71}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:40px 22px 70px}
+.crumb{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+.crumb a{color:var(--accent);text-decoration:none}.crumb a:hover{text-decoration:underline}
+h1{font-family:var(--serif);font-weight:400;font-size:40px;margin:0 0 4px}
+h1 em{font-style:italic;color:var(--accent)}
+.sub{color:var(--soft);font-size:14px;margin-bottom:28px;line-height:1.6}
+.map-wrap{background:#fff;border:1px solid var(--line);border-radius:6px;padding:24px;margin-bottom:32px;overflow-x:auto}
+.map-title{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-bottom:16px}
+svg.protmap{display:block;width:100%;min-width:600px;height:180px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--soft)}
+.legend span{display:flex;align-items:center;gap:6px}
+.swatch{width:12px;height:12px;border-radius:2px;display:inline-block;flex-shrink:0}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+input[type=text],select{font-family:var(--sans);font-size:13px;padding:9px 12px;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--ink)}
+input[type=text]{flex:1;min-width:200px}
+.count{font-family:var(--mono);font-size:11px;color:var(--faint);margin-left:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+th{font-family:var(--mono);text-align:left;padding:11px 12px;background:#f6f5f1;font-weight:400;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);cursor:pointer;white-space:nowrap}
+th:hover{color:var(--ink)}
+td{padding:9px 12px;border-top:1px solid var(--line)}
+tbody tr:hover td{background:#f7f9fb}
+.mono{font-family:var(--mono);font-size:11.5px}
+.pill{font-family:var(--mono);display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;color:#fff}
+.pill.helix{background:var(--helix)}.pill.sheet{background:var(--sheet)}.pill.loop{background:#8a96a3}
+.pill.buried{background:var(--buried)}.pill.exposed{background:var(--exposed)}
+.empty{padding:40px;text-align:center;color:var(--faint)}
+#tip{position:fixed;display:none;background:#16202b;color:#fff;font-family:var(--mono);
+font-size:11px;padding:8px 12px;border-radius:4px;pointer-events:none;z-index:20;line-height:1.6}
+</style></head>
+<body><div class="wrap">
+<div class="crumb"><a href="../">NephVar</a> / <a href="./">Biophysical</a> / UPK3A</div>
+<h1>UPK3A <em></em></h1>
+<div class="sub">CAKUT panel &middot; 287 aa &middot;
+UniProt <a href="https://www.uniprot.org/uniprot/O75631" target="_blank"
+style="color:var(--accent)">O75631</a></div>
+
+<div class="map-wrap">
+  <div class="map-title">Protein map — domains / secondary structure / RSA / pLDDT</div>
+  <svg class="protmap" id="protmap" viewBox="0 0 1000 180"></svg>
+  <div class="legend">
+    <span><span class="swatch" style="background:var(--helix)"></span>Helix</span>
+    <span><span class="swatch" style="background:var(--sheet)"></span>Sheet</span>
+    <span><span class="swatch" style="background:var(--loop)"></span>Loop / coil</span>
+    <span><span class="swatch" style="background:#a0c4e8"></span>pLDDT confidence</span>
+    <span><span class="swatch" style="background:var(--buried)"></span>Buried (RSA &lt; 0.25)</span>
+    <span><span class="swatch" style="background:var(--exposed)"></span>Exposed (RSA &ge; 0.25)</span>
+  </div>
+</div>
+
+<div class="controls">
+  <input type="text" id="q" placeholder="Search position or amino acid…">
+  <select id="ss"><option value="">All secondary structures</option>
+    <option value="helix">Helix</option>
+    <option value="sheet">Sheet</option>
+    <option value="loop">Loop / coil</option>
+  </select>
+  <select id="dom"><option value="">All domains</option><option value="Disordered">Disordered</option>
+<option value="Polar residues">Polar residues</option></select>
+  <span class="count" id="count"></span>
+</div>
+<table><thead><tr>
+  <th data-k="resnum">Pos</th>
+  <th data-k="aa">AA</th>
+  <th data-k="rsa">RSA</th>
+  <th data-k="ss">2° structure</th>
+  <th data-k="plddt">pLDDT</th>
+  <th data-k="buried">Burial</th>
+  <th data-k="domain">Domain</th>
+</tr></thead><tbody id="rows"></tbody></table>
+<div class="empty" id="empty" style="display:none">No residues match.</div>
+</div>
+<div id="tip"></div>
+
+<script>
+const residues = [{"resnum": 1, "aa": "M", "ss": "loop", "rsa": 1.0491, "plddt": 50.09}, {"resnum": 2, "aa": "P", "ss": "loop", "rsa": 0.717, "plddt": 59.53}, {"resnum": 3, "aa": "P", "ss": "loop", "rsa": 0.5409, "plddt": 57.97}, {"resnum": 4, "aa": "L", "ss": "helix", "rsa": 0.6418, "plddt": 58.59}, {"resnum": 5, "aa": "W", "ss": "helix", "rsa": 0.7298, "plddt": 58.91}, {"resnum": 6, "aa": "A", "ss": "helix", "rsa": 0.4186, "plddt": 54.44}, {"resnum": 7, "aa": "L", "ss": "helix", "rsa": 0.6219, "plddt": 51.72}, {"resnum": 8, "aa": "L", "ss": "helix", "rsa": 0.5323, "plddt": 53.88}, {"resnum": 9, "aa": "A", "ss": "helix", "rsa": 0.4729, "plddt": 52.72}, {"resnum": 10, "aa": "L", "ss": "helix", "rsa": 0.6517, "plddt": 49.34}, {"resnum": 11, "aa": "G", "ss": "helix", "rsa": 0.4423, "plddt": 42.41}, {"resnum": 12, "aa": "C", "ss": "helix", "rsa": 0.5868, "plddt": 45.56}, {"resnum": 13, "aa": "L", "ss": "loop", "rsa": 0.7463, "plddt": 40.56}, {"resnum": 14, "aa": "R", "ss": "loop", "rsa": 0.7555, "plddt": 41.19}, {"resnum": 15, "aa": "F", "ss": "loop", "rsa": 0.7417, "plddt": 35.25}, {"resnum": 16, "aa": "G", "ss": "loop", "rsa": 0.5865, "plddt": 35.25}, {"resnum": 17, "aa": "S", "ss": "loop", "rsa": 0.6452, "plddt": 36.12}, {"resnum": 18, "aa": "A", "ss": "loop", "rsa": 0.7597, "plddt": 41.97}, {"resnum": 19, "aa": "V", "ss": "loop", "rsa": 0.569, "plddt": 54.44}, {"resnum": 20, "aa": "N", "ss": "loop", "rsa": 0.6359, "plddt": 67.75}, {"resnum": 21, "aa": "L", "ss": "loop", "rsa": 0.3483, "plddt": 82.94}, {"resnum": 22, "aa": "Q", "ss": "loop", "rsa": 0.2267, "plddt": 92.31}, {"resnum": 23, "aa": "P", "ss": "loop", "rsa": 0.0252, "plddt": 95.5}, {"resnum": 24, "aa": "Q", "ss": "loop", "rsa": 0.5111, "plddt": 94.94}, {"resnum": 25, "aa": "L", "ss": "sheet", "rsa": 0.3184, "plddt": 96.12}, {"resnum": 26, "aa": "A", "ss": "loop", "rsa": 0.0388, "plddt": 95.12}, {"resnum": 27, "aa": "S", "ss": "loop", "rsa": 0.2968, "plddt": 90.5}, {"resnum": 28, "aa": "V", "ss": "loop", "rsa": 0.6034, "plddt": 90.19}, {"resnum": 29, "aa": "T", "ss": "loop", "rsa": 0.6686, "plddt": 85.62}, {"resnum": 30, "aa": "F", "ss": "loop", "rsa": 0.225, "plddt": 86.69}, {"resnum": 31, "aa": "A", "ss": "loop", "rsa": 0.0698, "plddt": 90.25}, {"resnum": 32, "aa": "T", "ss": "loop", "rsa": 0.6395, "plddt": 88.62}, {"resnum": 33, "aa": "N", "ss": "loop", "rsa": 0.6923, "plddt": 89.62}, {"resnum": 34, "aa": "N", "ss": "loop", "rsa": 0.159, "plddt": 94.56}, {"resnum": 35, "aa": "P", "ss": "loop", "rsa": 0.0881, "plddt": 95.81}, {"resnum": 36, "aa": "T", "ss": "loop", "rsa": 0.2558, "plddt": 94.62}, {"resnum": 37, "aa": "L", "ss": "loop", "rsa": 0.2587, "plddt": 94.56}, {"resnum": 38, "aa": "T", "ss": "loop", "rsa": 0.2907, "plddt": 95.38}, {"resnum": 39, "aa": "T", "ss": "loop", "rsa": 0.1337, "plddt": 96.88}, {"resnum": 40, "aa": "V", "ss": "sheet", "rsa": 0.0, "plddt": 97.62}, {"resnum": 41, "aa": "A", "ss": "sheet", "rsa": 0.0078, "plddt": 97.44}, {"resnum": 42, "aa": "L", "ss": "sheet", "rsa": 0.0, "plddt": 97.44}, {"resnum": 43, "aa": "E", "ss": "sheet", "rsa": 0.3274, "plddt": 95.0}, {"resnum": 44, "aa": "K", "ss": "loop", "rsa": 0.0847, "plddt": 94.12}, {"resnum": 45, "aa": "P", "ss": "loop", "rsa": 0.0314, "plddt": 91.25}, {"resnum": 46, "aa": "L", "ss": "loop", "rsa": 0.2338, "plddt": 87.81}, {"resnum": 47, "aa": "C", "ss": "loop", "rsa": 0.4371, "plddt": 84.88}, {"resnum": 48, "aa": "M", "ss": "loop", "rsa": 0.2277, "plddt": 82.69}, {"resnum": 49, "aa": "F", "ss": "loop", "rsa": 0.025, "plddt": 78.38}, {"resnum": 50, "aa": "D", "ss": "loop", "rsa": 0.4974, "plddt": 61.84}, {"resnum": 51, "aa": "S", "ss": "loop", "rsa": 0.4323, "plddt": 56.34}, {"resnum": 52, "aa": "K", "ss": "loop", "rsa": 0.7754, "plddt": 50.56}, {"resnum": 53, "aa": "E", "ss": "loop", "rsa": 0.6996, "plddt": 61.5}, {"resnum": 54, "aa": "A", "ss": "loop", "rsa": 0.7132, "plddt": 64.94}, {"resnum": 55, "aa": "L", "ss": "loop", "rsa": 0.2537, "plddt": 73.31}, {"resnum": 56, "aa": "T", "ss": "loop", "rsa": 0.6686, "plddt": 73.94}, {"resnum": 57, "aa": "G", "ss": "loop", "rsa": 0.5192, "plddt": 80.31}, {"resnum": 58, "aa": "T", "ss": "loop", "rsa": 0.564, "plddt": 90.25}, {"resnum": 59, "aa": "H", "ss": "sheet", "rsa": 0.0714, "plddt": 91.62}, {"resnum": 60, "aa": "E", "ss": "sheet", "rsa": 0.2242, "plddt": 94.56}, {"resnum": 61, "aa": "V", "ss": "sheet", "rsa": 0.0, "plddt": 95.44}, {"resnum": 62, "aa": "Y", "ss": "sheet", "rsa": 0.0798, "plddt": 96.94}, {"resnum": 63, "aa": "L", "ss": "sheet", "rsa": 0.0, "plddt": 97.5}, {"resnum": 64, "aa": "Y", "ss": "sheet", "rsa": 0.0, "plddt": 97.5}, {"resnum": 65, "aa": "V", "ss": "sheet", "rsa": 0.0, "plddt": 97.5}, {"resnum": 66, "aa": "L", "ss": "sheet", "rsa": 0.0348, "plddt": 96.69}, {"resnum": 67, "aa": "V", "ss": "sheet", "rsa": 0.1552, "plddt": 97.38}, {"resnum": 68, "aa": "D", "ss": "loop", "rsa": 0.2435, "plddt": 97.0}, {"resnum": 69, "aa": "S", "ss": "loop", "rsa": 0.3742, "plddt": 92.12}, {"resnum": 70, "aa": "A", "ss": "loop", "rsa": 0.8837, "plddt": 82.06}, {"resnum": 71, "aa": "I", "ss": "loop", "rsa": 0.6853, "plddt": 78.94}, {"resnum": 72, "aa": "S", "ss": "helix", "rsa": 0.0129, "plddt": 84.06}, {"resnum": 73, "aa": "R", "ss": "helix", "rsa": 0.5109, "plddt": 84.25}, {"resnum": 74, "aa": "N", "ss": "helix", "rsa": 0.7692, "plddt": 89.19}, {"resnum": 75, "aa": "A", "ss": "loop", "rsa": 0.124, "plddt": 93.88}, {"resnum": 76, "aa": "S", "ss": "loop", "rsa": 0.4194, "plddt": 95.0}, {"resnum": 77, "aa": "V", "ss": "loop", "rsa": 0.0, "plddt": 96.0}, {"resnum": 78, "aa": "Q", "ss": "sheet", "rsa": 0.1333, "plddt": 96.19}, {"resnum": 79, "aa": "D", "ss": "loop", "rsa": 0.3472, "plddt": 94.62}, {"resnum": 80, "aa": "S", "ss": "loop", "rsa": 0.8, "plddt": 95.12}, {"resnum": 81, "aa": "T", "ss": "loop", "rsa": 0.4651, "plddt": 95.44}, {"resnum": 82, "aa": "N", "ss": "loop", "rsa": 0.3897, "plddt": 95.06}, {"resnum": 83, "aa": "T", "ss": "loop", "rsa": 0.3198, "plddt": 97.19}, {"resnum": 84, "aa": "P", "ss": "sheet", "rsa": 0.1069, "plddt": 97.19}, {"resnum": 85, "aa": "L", "ss": "loop", "rsa": 0.2786, "plddt": 95.75}, {"resnum": 86, "aa": "G", "ss": "loop", "rsa": 0.6346, "plddt": 93.69}, {"resnum": 87, "aa": "S", "ss": "loop", "rsa": 0.1677, "plddt": 94.75}, {"resnum": 88, "aa": "T", "ss": "loop", "rsa": 0.3372, "plddt": 94.06}, {"resnum": 89, "aa": "F", "ss": "loop", "rsa": 0.1083, "plddt": 94.69}, {"resnum": 90, "aa": "L", "ss": "loop", "rsa": 0.6119, "plddt": 92.25}, {"resnum": 91, "aa": "Q", "ss": "loop", "rsa": 0.6, "plddt": 93.62}, {"resnum": 92, "aa": "T", "ss": "loop", "rsa": 0.0407, "plddt": 94.5}, {"resnum": 93, "aa": "E", "ss": "loop", "rsa": 0.565, "plddt": 94.94}, {"resnum": 94, "aa": "G", "ss": "loop", "rsa": 0.0385, "plddt": 93.69}, {"resnum": 95, "aa": "G", "ss": "loop", "rsa": 0.0096, "plddt": 95.44}, {"resnum": 96, "aa": "R", "ss": "loop", "rsa": 0.6131, "plddt": 95.12}, {"resnum": 97, "aa": "T", "ss": "loop", "rsa": 0.5465, "plddt": 94.44}, {"resnum": 98, "aa": "G", "ss": "loop", "rsa": 0.1827, "plddt": 94.94}, {"resnum": 99, "aa": "P", "ss": "loop", "rsa": 0.0881, "plddt": 96.69}, {"resnum": 100, "aa": "Y", "ss": "sheet", "rsa": 0.0, "plddt": 96.12}, {"resnum": 101, "aa": "K", "ss": "sheet", "rsa": 0.1229, "plddt": 96.81}, {"resnum": 102, "aa": "A", "ss": "sheet", "rsa": 0.0078, "plddt": 96.25}, {"resnum": 103, "aa": "V", "ss": "sheet", "rsa": 0.1437, "plddt": 95.75}, {"resnum": 104, "aa": "A", "ss": "sheet", "rsa": 0.2713, "plddt": 95.5}, {"resnum": 105, "aa": "F", "ss": "sheet", "rsa": 0.1125, "plddt": 94.31}, {"resnum": 106, "aa": "D", "ss": "sheet", "rsa": 0.5959, "plddt": 92.06}, {"resnum": 107, "aa": "L", "ss": "loop", "rsa": 0.199, "plddt": 89.0}, {"resnum": 108, "aa": "I", "ss": "loop", "rsa": 0.2538, "plddt": 86.75}, {"resnum": 109, "aa": "P", "ss": "loop", "rsa": 0.3585, "plddt": 83.56}, {"resnum": 110, "aa": "C", "ss": "helix", "rsa": 0.2455, "plddt": 84.62}, {"resnum": 111, "aa": "S", "ss": "helix", "rsa": 0.6581, "plddt": 83.62}, {"resnum": 112, "aa": "D", "ss": "helix", "rsa": 0.544, "plddt": 86.19}, {"resnum": 113, "aa": "L", "ss": "loop", "rsa": 0.2139, "plddt": 87.12}, {"resnum": 114, "aa": "P", "ss": "loop", "rsa": 0.2956, "plddt": 89.38}, {"resnum": 115, "aa": "S", "ss": "loop", "rsa": 0.4323, "plddt": 87.0}, {"resnum": 116, "aa": "L", "ss": "helix", "rsa": 0.3085, "plddt": 86.75}, {"resnum": 117, "aa": "D", "ss": "helix", "rsa": 0.7824, "plddt": 85.19}, {"resnum": 118, "aa": "A", "ss": "helix", "rsa": 0.2868, "plddt": 80.0}, {"resnum": 119, "aa": "I", "ss": "helix", "rsa": 0.2995, "plddt": 81.62}, {"resnum": 120, "aa": "G", "ss": "helix", "rsa": 0.6635, "plddt": 80.75}, {"resnum": 121, "aa": "D", "ss": "loop", "rsa": 0.3057, "plddt": 87.31}, {"resnum": 122, "aa": "V", "ss": "helix", "rsa": 0.7414, "plddt": 87.56}, {"resnum": 123, "aa": "S", "ss": "helix", "rsa": 0.5742, "plddt": 89.81}, {"resnum": 124, "aa": "K", "ss": "helix", "rsa": 0.3898, "plddt": 89.94}, {"resnum": 125, "aa": "A", "ss": "helix", "rsa": 0.1628, "plddt": 89.5}, {"resnum": 126, "aa": "S", "ss": "helix", "rsa": 0.5484, "plddt": 88.38}, {"resnum": 127, "aa": "Q", "ss": "helix", "rsa": 0.6444, "plddt": 90.25}, {"resnum": 128, "aa": "I", "ss": "helix", "rsa": 0.0406, "plddt": 91.19}, {"resnum": 129, "aa": "L", "ss": "helix", "rsa": 0.2139, "plddt": 92.12}, {"resnum": 130, "aa": "N", "ss": "helix", "rsa": 0.5641, "plddt": 92.75}, {"resnum": 131, "aa": "A", "ss": "helix", "rsa": 0.0698, "plddt": 92.19}, {"resnum": 132, "aa": "Y", "ss": "helix", "rsa": 0.1673, "plddt": 92.5}, {"resnum": 133, "aa": "L", "ss": "sheet", "rsa": 0.0299, "plddt": 95.0}, {"resnum": 134, "aa": "V", "ss": "sheet", "rsa": 0.0402, "plddt": 95.62}, {"resnum": 135, "aa": "R", "ss": "sheet", "rsa": 0.427, "plddt": 95.88}, {"resnum": 136, "aa": "V", "ss": "sheet", "rsa": 0.0, "plddt": 97.31}, {"resnum": 137, "aa": "G", "ss": "loop", "rsa": 0.0288, "plddt": 96.12}, {"resnum": 138, "aa": "A", "ss": "loop", "rsa": 0.5349, "plddt": 90.06}, {"resnum": 139, "aa": "N", "ss": "loop", "rsa": 0.2154, "plddt": 89.94}, {"resnum": 140, "aa": "G", "ss": "loop", "rsa": 0.2981, "plddt": 90.0}, {"resnum": 141, "aa": "T", "ss": "helix", "rsa": 0.5174, "plddt": 90.62}, {"resnum": 142, "aa": "C", "ss": "helix", "rsa": 0.0719, "plddt": 92.0}, {"resnum": 143, "aa": "L", "ss": "helix", "rsa": 0.2935, "plddt": 91.56}, {"resnum": 144, "aa": "W", "ss": "loop", "rsa": 0.7719, "plddt": 91.12}, {"resnum": 145, "aa": "D", "ss": "loop", "rsa": 0.3212, "plddt": 91.38}, {"resnum": 146, "aa": "P", "ss": "loop", "rsa": 0.7673, "plddt": 86.81}, {"resnum": 147, "aa": "N", "ss": "loop", "rsa": 0.6462, "plddt": 89.88}, {"resnum": 148, "aa": "F", "ss": "loop", "rsa": 0.2542, "plddt": 87.25}, {"resnum": 149, "aa": "Q", "ss": "loop", "rsa": 0.8267, "plddt": 82.56}, {"resnum": 150, "aa": "G", "ss": "loop", "rsa": 0.5962, "plddt": 84.25}, {"resnum": 151, "aa": "L", "ss": "loop", "rsa": 0.3433, "plddt": 90.69}, {"resnum": 152, "aa": "C", "ss": "loop", "rsa": 0.1377, "plddt": 92.5}, {"resnum": 153, "aa": "N", "ss": "loop", "rsa": 0.1077, "plddt": 94.44}, {"resnum": 154, "aa": "A", "ss": "loop", "rsa": 0.0, "plddt": 95.56}, {"resnum": 155, "aa": "P", "ss": "loop", "rsa": 0.2704, "plddt": 96.69}, {"resnum": 156, "aa": "L", "ss": "loop", "rsa": 0.0199, "plddt": 97.12}, {"resnum": 157, "aa": "S", "ss": "loop", "rsa": 0.3742, "plddt": 95.81}, {"resnum": 158, "aa": "A", "ss": "loop", "rsa": 0.3721, "plddt": 95.06}, {"resnum": 159, "aa": "A", "ss": "loop", "rsa": 0.2248, "plddt": 94.75}, {"resnum": 160, "aa": "T", "ss": "loop", "rsa": 0.1802, "plddt": 96.5}, {"resnum": 161, "aa": "E", "ss": "sheet", "rsa": 0.3004, "plddt": 97.19}, {"resnum": 162, "aa": "Y", "ss": "sheet", "rsa": 0.0076, "plddt": 97.81}, {"resnum": 163, "aa": "R", "ss": "sheet", "rsa": 0.0328, "plddt": 97.81}, {"resnum": 164, "aa": "F", "ss": "sheet", "rsa": 0.0, "plddt": 97.5}, {"resnum": 165, "aa": "K", "ss": "sheet", "rsa": 0.0805, "plddt": 96.5}, {"resnum": 166, "aa": "Y", "ss": "sheet", "rsa": 0.0076, "plddt": 96.44}, {"resnum": 167, "aa": "V", "ss": "sheet", "rsa": 0.0, "plddt": 95.19}, {"resnum": 168, "aa": "L", "ss": "sheet", "rsa": 0.01, "plddt": 94.44}, {"resnum": 169, "aa": "V", "ss": "sheet", "rsa": 0.0115, "plddt": 94.81}, {"resnum": 170, "aa": "N", "ss": "sheet", "rsa": 0.041, "plddt": 93.81}, {"resnum": 171, "aa": "M", "ss": "loop", "rsa": 0.3348, "plddt": 94.31}, {"resnum": 172, "aa": "S", "ss": "loop", "rsa": 0.5742, "plddt": 93.38}, {"resnum": 173, "aa": "T", "ss": "loop", "rsa": 0.4593, "plddt": 93.88}, {"resnum": 174, "aa": "G", "ss": "loop", "rsa": 0.3269, "plddt": 94.12}, {"resnum": 175, "aa": "L", "ss": "sheet", "rsa": 0.3234, "plddt": 95.62}, {"resnum": 176, "aa": "V", "ss": "sheet", "rsa": 0.0862, "plddt": 94.25}, {"resnum": 177, "aa": "E", "ss": "sheet", "rsa": 0.426, "plddt": 91.31}, {"resnum": 178, "aa": "D", "ss": "sheet", "rsa": 0.399, "plddt": 91.06}, {"resnum": 179, "aa": "Q", "ss": "sheet", "rsa": 0.2844, "plddt": 92.81}, {"resnum": 180, "aa": "T", "ss": "loop", "rsa": 0.0581, "plddt": 93.56}, {"resnum": 181, "aa": "L", "ss": "loop", "rsa": 0.408, "plddt": 93.44}, {"resnum": 182, "aa": "W", "ss": "loop", "rsa": 0.0526, "plddt": 95.69}, {"resnum": 183, "aa": "S", "ss": "loop", "rsa": 0.0065, "plddt": 95.81}, {"resnum": 184, "aa": "D", "ss": "loop", "rsa": 0.3782, "plddt": 95.06}, {"resnum": 185, "aa": "P", "ss": "loop", "rsa": 0.2956, "plddt": 96.31}, {"resnum": 186, "aa": "I", "ss": "sheet", "rsa": 0.0761, "plddt": 96.81}, {"resnum": 187, "aa": "R", "ss": "sheet", "rsa": 0.5109, "plddt": 96.88}, {"resnum": 188, "aa": "T", "ss": "loop", "rsa": 0.0058, "plddt": 97.06}, {"resnum": 189, "aa": "N", "ss": "loop", "rsa": 0.4308, "plddt": 94.12}, {"resnum": 190, "aa": "Q", "ss": "loop", "rsa": 0.6489, "plddt": 89.44}, {"resnum": 191, "aa": "L", "ss": "loop", "rsa": 0.607, "plddt": 80.62}, {"resnum": 192, "aa": "T", "ss": "loop", "rsa": 0.5698, "plddt": 77.0}, {"resnum": 193, "aa": "P", "ss": "loop", "rsa": 0.4214, "plddt": 77.0}, {"resnum": 194, "aa": "Y", "ss": "helix", "rsa": 0.7529, "plddt": 77.75}, {"resnum": 195, "aa": "S", "ss": "helix", "rsa": 0.6, "plddt": 79.56}, {"resnum": 196, "aa": "T", "ss": "helix", "rsa": 0.5233, "plddt": 78.94}, {"resnum": 197, "aa": "I", "ss": "loop", "rsa": 0.4975, "plddt": 73.56}, {"resnum": 198, "aa": "D", "ss": "loop", "rsa": 0.456, "plddt": 72.12}, {"resnum": 199, "aa": "T", "ss": "loop", "rsa": 0.7209, "plddt": 73.0}, {"resnum": 200, "aa": "W", "ss": "loop", "rsa": 0.6632, "plddt": 72.44}, {"resnum": 201, "aa": "P", "ss": "loop", "rsa": 0.5723, "plddt": 64.62}, {"resnum": 202, "aa": "G", "ss": "helix", "rsa": 0.3173, "plddt": 62.75}, {"resnum": 203, "aa": "R", "ss": "helix", "rsa": 0.7701, "plddt": 62.59}, {"resnum": 204, "aa": "R", "ss": "helix", "rsa": 0.865, "plddt": 63.53}, {"resnum": 205, "aa": "S", "ss": "helix", "rsa": 0.2387, "plddt": 68.88}, {"resnum": 206, "aa": "G", "ss": "helix", "rsa": 0.3269, "plddt": 69.75}, {"resnum": 207, "aa": "G", "ss": "helix", "rsa": 0.4327, "plddt": 76.81}, {"resnum": 208, "aa": "M", "ss": "helix", "rsa": 0.5759, "plddt": 82.06}, {"resnum": 209, "aa": "I", "ss": "helix", "rsa": 0.5127, "plddt": 82.44}, {"resnum": 210, "aa": "V", "ss": "helix", "rsa": 0.4943, "plddt": 86.12}, {"resnum": 211, "aa": "I", "ss": "helix", "rsa": 0.5127, "plddt": 86.19}, {"resnum": 212, "aa": "T", "ss": "helix", "rsa": 0.4767, "plddt": 88.88}, {"resnum": 213, "aa": "S", "ss": "helix", "rsa": 0.5032, "plddt": 91.5}, {"resnum": 214, "aa": "I", "ss": "helix", "rsa": 0.4924, "plddt": 90.56}, {"resnum": 215, "aa": "L", "ss": "helix", "rsa": 0.602, "plddt": 92.88}, {"resnum": 216, "aa": "G", "ss": "helix", "rsa": 0.5192, "plddt": 93.44}, {"resnum": 217, "aa": "S", "ss": "helix", "rsa": 0.271, "plddt": 94.25}, {"resnum": 218, "aa": "L", "ss": "helix", "rsa": 0.4677, "plddt": 94.81}, {"resnum": 219, "aa": "P", "ss": "helix", "rsa": 0.3836, "plddt": 93.69}, {"resnum": 220, "aa": "F", "ss": "helix", "rsa": 0.5583, "plddt": 92.81}, {"resnum": 221, "aa": "F", "ss": "helix", "rsa": 0.575, "plddt": 93.88}, {"resnum": 222, "aa": "L", "ss": "helix", "rsa": 0.5771, "plddt": 95.31}, {"resnum": 223, "aa": "L", "ss": "helix", "rsa": 0.5821, "plddt": 95.5}, {"resnum": 224, "aa": "V", "ss": "helix", "rsa": 0.4713, "plddt": 95.81}, {"resnum": 225, "aa": "G", "ss": "helix", "rsa": 0.4615, "plddt": 95.06}, {"resnum": 226, "aa": "F", "ss": "helix", "rsa": 0.575, "plddt": 95.12}, {"resnum": 227, "aa": "A", "ss": "helix", "rsa": 0.4341, "plddt": 94.69}, {"resnum": 228, "aa": "G", "ss": "helix", "rsa": 0.3077, "plddt": 94.5}, {"resnum": 229, "aa": "A", "ss": "helix", "rsa": 0.4419, "plddt": 92.88}, {"resnum": 230, "aa": "I", "ss": "helix", "rsa": 0.3807, "plddt": 93.31}, {"resnum": 231, "aa": "A", "ss": "helix", "rsa": 0.4186, "plddt": 91.0}, {"resnum": 232, "aa": "L", "ss": "helix", "rsa": 0.5771, "plddt": 90.62}, {"resnum": 233, "aa": "S", "ss": "helix", "rsa": 0.3548, "plddt": 87.88}, {"resnum": 234, "aa": "L", "ss": "helix", "rsa": 0.5721, "plddt": 85.75}, {"resnum": 235, "aa": "V", "ss": "helix", "rsa": 0.5747, "plddt": 83.31}, {"resnum": 236, "aa": "D", "ss": "helix", "rsa": 0.6373, "plddt": 70.94}, {"resnum": 237, "aa": "M", "ss": "helix", "rsa": 0.6696, "plddt": 60.0}, {"resnum": 238, "aa": "G", "ss": "helix", "rsa": 0.6731, "plddt": 58.59}, {"resnum": 239, "aa": "S", "ss": "loop", "rsa": 0.6774, "plddt": 53.16}, {"resnum": 240, "aa": "S", "ss": "loop", "rsa": 0.6581, "plddt": 50.31}, {"resnum": 241, "aa": "D", "ss": "loop", "rsa": 0.8601, "plddt": 50.91}, {"resnum": 242, "aa": "G", "ss": "loop", "rsa": 0.7596, "plddt": 49.19}, {"resnum": 243, "aa": "E", "ss": "loop", "rsa": 0.7892, "plddt": 39.5}, {"resnum": 244, "aa": "T", "ss": "loop", "rsa": 0.8198, "plddt": 48.47}, {"resnum": 245, "aa": "T", "ss": "loop", "rsa": 0.6453, "plddt": 43.22}, {"resnum": 246, "aa": "H", "ss": "loop", "rsa": 0.7188, "plddt": 42.75}, {"resnum": 247, "aa": "D", "ss": "loop", "rsa": 0.8238, "plddt": 46.25}, {"resnum": 248, "aa": "S", "ss": "loop", "rsa": 0.5677, "plddt": 40.16}, {"resnum": 249, "aa": "Q", "ss": "loop", "rsa": 0.8444, "plddt": 42.19}, {"resnum": 250, "aa": "I", "ss": "loop", "rsa": 0.797, "plddt": 43.75}, {"resnum": 251, "aa": "T", "ss": "loop", "rsa": 0.6512, "plddt": 43.19}, {"resnum": 252, "aa": "Q", "ss": "loop", "rsa": 0.6756, "plddt": 42.75}, {"resnum": 253, "aa": "E", "ss": "loop", "rsa": 0.7265, "plddt": 43.47}, {"resnum": 254, "aa": "A", "ss": "loop", "rsa": 0.5891, "plddt": 44.09}, {"resnum": 255, "aa": "V", "ss": "loop", "rsa": 0.7356, "plddt": 39.88}, {"resnum": 256, "aa": "P", "ss": "loop", "rsa": 0.7673, "plddt": 39.59}, {"resnum": 257, "aa": "K", "ss": "loop", "rsa": 0.8178, "plddt": 41.69}, {"resnum": 258, "aa": "S", "ss": "loop", "rsa": 0.6, "plddt": 40.0}, {"resnum": 259, "aa": "L", "ss": "loop", "rsa": 0.8657, "plddt": 42.16}, {"resnum": 260, "aa": "G", "ss": "loop", "rsa": 0.6827, "plddt": 40.12}, {"resnum": 261, "aa": "A", "ss": "loop", "rsa": 0.814, "plddt": 34.91}, {"resnum": 262, "aa": "S", "ss": "loop", "rsa": 0.6194, "plddt": 41.81}, {"resnum": 263, "aa": "E", "ss": "loop", "rsa": 0.7713, "plddt": 37.34}, {"resnum": 264, "aa": "S", "ss": "loop", "rsa": 0.6129, "plddt": 34.59}, {"resnum": 265, "aa": "S", "ss": "loop", "rsa": 0.7484, "plddt": 36.88}, {"resnum": 266, "aa": "Y", "ss": "loop", "rsa": 0.8137, "plddt": 32.53}, {"resnum": 267, "aa": "T", "ss": "loop", "rsa": 0.7558, "plddt": 39.16}, {"resnum": 268, "aa": "S", "ss": "loop", "rsa": 0.6903, "plddt": 41.97}, {"resnum": 269, "aa": "V", "ss": "loop", "rsa": 0.6494, "plddt": 42.75}, {"resnum": 270, "aa": "N", "ss": "loop", "rsa": 0.8103, "plddt": 36.03}, {"resnum": 271, "aa": "R", "ss": "loop", "rsa": 0.865, "plddt": 45.09}, {"resnum": 272, "aa": "G", "ss": "loop", "rsa": 0.6827, "plddt": 38.97}, {"resnum": 273, "aa": "P", "ss": "loop", "rsa": 0.7673, "plddt": 57.44}, {"resnum": 274, "aa": "P", "ss": "loop", "rsa": 0.7484, "plddt": 42.34}, {"resnum": 275, "aa": "L", "ss": "loop", "rsa": 0.9204, "plddt": 41.06}, {"resnum": 276, "aa": "D", "ss": "loop", "rsa": 0.7513, "plddt": 44.03}, {"resnum": 277, "aa": "R", "ss": "loop", "rsa": 0.7153, "plddt": 42.72}, {"resnum": 278, "aa": "A", "ss": "loop", "rsa": 0.7674, "plddt": 43.75}, {"resnum": 279, "aa": "E", "ss": "loop", "rsa": 0.7713, "plddt": 44.69}, {"resnum": 280, "aa": "V", "ss": "loop", "rsa": 0.7471, "plddt": 41.34}, {"resnum": 281, "aa": "Y", "ss": "loop", "rsa": 0.7795, "plddt": 41.09}, {"resnum": 282, "aa": "S", "ss": "loop", "rsa": 0.7355, "plddt": 41.38}, {"resnum": 283, "aa": "S", "ss": "loop", "rsa": 0.5935, "plddt": 50.66}, {"resnum": 284, "aa": "K", "ss": "loop", "rsa": 0.8771, "plddt": 41.25}, {"resnum": 285, "aa": "L", "ss": "loop", "rsa": 0.8259, "plddt": 51.06}, {"resnum": 286, "aa": "Q", "ss": "loop", "rsa": 0.7778, "plddt": 43.59}, {"resnum": 287, "aa": "D", "ss": "loop", "rsa": 1.2487, "plddt": 46.25}];
+const domains  = [{"type": "Signal", "description": NaN, "start": 1, "end": 18.0}, {"type": "Chain", "description": "Uroplakin-3a", "start": 19, "end": 287.0}, {"type": "Transmembrane", "description": "Helical", "start": 208, "end": 235.0}, {"type": "Region", "description": "Disordered", "start": 242, "end": 287.0}, {"type": "Compositional bias", "description": "Polar residues", "start": 261, "end": 270.0}];
+const seqlen   = 287;
+
+const svg  = document.getElementById("protmap");
+const ns   = "http://www.w3.org/2000/svg";
+const W    = 1000, pad = 20, inner = W - pad * 2;
+const xOf  = r => pad + ((r - 1) / Math.max(seqlen - 1, 1)) * inner;
+
+const yDom = 12, domH = 14;
+const ySS  = 36, ssH  = 12;
+const yRSA = 62, rsaH = 32;
+const yPLD = 108, pldH = 32;
+
+function rect(attrs) {
+  const e = document.createElementNS(ns, "rect");
+  for (const [k,v] of Object.entries(attrs)) e.setAttribute(k,v);
+  return e;
+}
+function text(attrs, label) {
+  const e = document.createElementNS(ns, "text");
+  for (const [k,v] of Object.entries(attrs)) e.setAttribute(k,v);
+  e.textContent = label;
+  return e;
+}
+
+[["Domains", yDom], ["2° Str.", ySS], ["RSA", yRSA], ["pLDDT", yPLD]].forEach(([label, y]) =>
+  svg.appendChild(text({x:2, y:y-1, fill:"#8a96a3", "font-size":"7",
+    "font-family":"DM Mono,monospace"}, label))
+);
+
+const domColors = ["#7ec8e3","#f4a261","#a8dadc","#c77dff","#90be6d",
+                   "#f9c74f","#f94144","#43aa8b","#577590","#e9c46a"];
+const domIdx = {};
+domains.forEach(d => {
+  if (!d.start || !d.end) return;
+  if (!(d.description in domIdx)) domIdx[d.description] = domColors[Object.keys(domIdx).length % domColors.length];
+  const x = xOf(d.start), w = Math.max(2, xOf(d.end) - xOf(d.start));
+  const r = rect({x, y:yDom, width:w, height:domH, fill:domIdx[d.description], opacity:"0.85", rx:"2"});
+  const t = document.createElementNS(ns, "title");
+  t.textContent = `${d.description} (${d.start}–${d.end})`;
+  r.appendChild(t);
+  svg.appendChild(r);
+});
+
+residues.forEach(r => {
+  const x  = xOf(r.resnum);
+  const ss = r.ss || "loop";
+  const ssColor = ss === "helix" ? "#e07b18" : ss === "sheet" ? "#1f6fa8" : "#c8ced4";
+  svg.appendChild(rect({x, y:ySS, width:"1.5", height:ssH, fill:ssColor}));
+
+  if (r.rsa != null) {
+    const h = r.rsa * rsaH;
+    svg.appendChild(rect({x, y:yRSA+rsaH-h, width:"1.5", height:h,
+      fill: r.rsa < 0.25 ? "#c0392b" : "#2ecc71", opacity:"0.7"}));
+  }
+  if (r.plddt != null) {
+    const h = (r.plddt / 100) * pldH;
+    svg.appendChild(rect({x, y:yPLD+pldH-h, width:"1.5", height:h, fill:"#a0c4e8", opacity:"0.8"}));
+  }
+});
+
+function domainOf(resnum) {
+  const hit = domains.find(d => resnum >= d.start && resnum <= d.end);
+  return hit ? hit.description : "";
+}
+
+const rows = residues.map(r => ({
+  ...r,
+  domain: domainOf(r.resnum),
+  buried: r.rsa == null ? "" : r.rsa < 0.25 ? "buried" : "exposed"
+}));
+
+let sortKey = "resnum", sortAsc = true;
+const tbody   = document.getElementById("rows");
+const countEl = document.getElementById("count");
+const emptyEl = document.getElementById("empty");
+
+function render() {
+  const q   = document.getElementById("q").value.toLowerCase();
+  const ss  = document.getElementById("ss").value;
+  const dom = document.getElementById("dom").value;
+
+  let data = rows.filter(r =>
+    (!q   || String(r.resnum).includes(q) || (r.aa||"").toLowerCase().includes(q)) &&
+    (!ss  || r.ss === ss) &&
+    (!dom || r.domain === dom)
+  );
+
+  data.sort((a, b) => {
+    const av = a[sortKey] ?? "", bv = b[sortKey] ?? "";
+    return sortAsc ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
+  });
+
+  tbody.innerHTML = data.map(r => `
+    <tr>
+      <td class="mono">${r.resnum}</td>
+      <td class="mono">${r.aa || ""}</td>
+      <td class="mono">${r.rsa != null ? r.rsa.toFixed(3) : "—"}</td>
+      <td><span class="pill ${r.ss}">${r.ss}</span></td>
+      <td class="mono">${r.plddt != null ? r.plddt.toFixed(1) : "—"}</td>
+      <td><span class="pill ${r.buried}">${r.buried || "—"}</span></td>
+      <td style="color:var(--soft);font-size:12px">${r.domain}</td>
+    </tr>`).join("");
+
+  countEl.textContent = `${data.length.toLocaleString()} residues`;
+  emptyEl.style.display = data.length ? "none" : "block";
+}
+
+document.querySelectorAll("th[data-k]").forEach(th =>
+  th.addEventListener("click", () => {
+    if (sortKey === th.dataset.k) sortAsc = !sortAsc;
+    else { sortKey = th.dataset.k; sortAsc = true; }
+    render();
+  })
+);
+["q","ss","dom"].forEach(id =>
+  document.getElementById(id).addEventListener("input", render)
+);
+render();
+</script></body></html>
