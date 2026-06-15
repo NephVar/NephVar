@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NPHP Variants — NephVar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--serif:'Instrument Serif',Georgia,serif;--sans:'Syne',system-ui,sans-serif;
+--mono:'DM Mono',ui-monospace,monospace;--accent:#1f6fa8;--ink:#16202b;
+--soft:#5d6b78;--faint:#8a96a3;--line:#e6e9ee;--bg:#fbfaf7;
+--P:#c0392b;--LP:#e07b18;--VUS:#7f7f7f;--LB:#7fb3d5;--B:#1f6fa8}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:40px 22px 70px}
+.crumb{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+.crumb a{color:var(--accent);text-decoration:none}.crumb a:hover{text-decoration:underline}
+h1{font-family:var(--serif);font-weight:400;font-size:40px;margin:0 0 4px}
+h1 em{font-style:italic;color:var(--accent)}
+.sub{color:var(--soft);font-size:14px;max-width:680px;line-height:1.6;margin-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);
+border-radius:6px;padding:22px;transition:transform .14s ease,box-shadow .14s ease,border-color .14s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(20,30,45,.10);border-color:#cdd9e4}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.gname{font-family:var(--serif);font-size:28px}
+.gtotal{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.acmgrow{display:flex;gap:5px;margin-bottom:14px}
+.acmgbox{flex:1;border-radius:4px;color:#fff;padding:6px 4px;text-align:center}
+.acmgcount{display:block;font-family:var(--mono);font-size:14px;font-weight:400}
+.acmglabel{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;opacity:.9}
+.cta{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px;font-family:var(--mono);font-size:10.5px;color:var(--soft)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:99px;display:inline-block}
+</style></head>
+<body><div class="wrap">
+<div class="crumb"><a href="../../">NephVar</a> / <a href="../">NPHP</a> / Variants</div>
+<h1>NPHP <em>Variants</em></h1>
+<div class="sub">ClinVar-derived variant database for the 16 nephronophthisis-related
+ciliopathy genes &mdash; 21,532 unique variants total. Select a gene to
+browse its full variant list with classification history and submission timelines.</div>
+<div class="grid">
+    <a class="card" href="ANKS6.html">
+      <div class="card-head">
+        <span class="gname">ANKS6</span>
+        <span class="gtotal">623 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">50</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">16</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">324</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">177</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">56</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="CEP164.html">
+      <div class="card-head">
+        <span class="gname">CEP164</span>
+        <span class="gtotal">1,572 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">107</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">56</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">741</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">601</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">67</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="CEP290.html">
+      <div class="card-head">
+        <span class="gname">CEP290</span>
+        <span class="gtotal">4,305 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">665</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">328</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">1517</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">1661</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">134</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="GLIS2.html">
+      <div class="card-head">
+        <span class="gname">GLIS2</span>
+        <span class="gtotal">376 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">35</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">0</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">240</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">69</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">32</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="INVS.html">
+      <div class="card-head">
+        <span class="gname">INVS</span>
+        <span class="gtotal">1,103 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">106</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">38</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">497</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">416</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">46</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="IQCB1.html">
+      <div class="card-head">
+        <span class="gname">IQCB1</span>
+        <span class="gtotal">617 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">79</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">38</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">276</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">163</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">61</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="NEK8.html">
+      <div class="card-head">
+        <span class="gname">NEK8</span>
+        <span class="gtotal">488 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">27</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">21</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">296</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">123</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">21</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="NPHP1.html">
+      <div class="card-head">
+        <span class="gname">NPHP1</span>
+        <span class="gtotal">1,197 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">205</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">71</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">428</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">396</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">97</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="NPHP3.html">
+      <div class="card-head">
+        <span class="gname">NPHP3</span>
+        <span class="gtotal">1,349 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">123</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">52</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">689</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">405</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">80</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="NPHP4.html">
+      <div class="card-head">
+        <span class="gname">NPHP4</span>
+        <span class="gtotal">1,841 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">157</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">69</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">947</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">550</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">118</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="RPGRIP1L.html">
+      <div class="card-head">
+        <span class="gname">RPGRIP1L</span>
+        <span class="gtotal">2,077 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">246</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">133</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">807</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">825</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">66</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="SDCCAG8.html">
+      <div class="card-head">
+        <span class="gname">SDCCAG8</span>
+        <span class="gtotal">901 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">143</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">52</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">425</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">249</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">32</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="TMEM67.html">
+      <div class="card-head">
+        <span class="gname">TMEM67</span>
+        <span class="gtotal">1,374 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">202</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">88</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">501</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">515</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">68</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="TTC21B.html">
+      <div class="card-head">
+        <span class="gname">TTC21B</span>
+        <span class="gtotal">1,452 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">146</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">52</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">653</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">508</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">93</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="WDR19.html">
+      <div class="card-head">
+        <span class="gname">WDR19</span>
+        <span class="gtotal">1,300 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">102</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">63</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">624</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">444</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">67</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a>
+    <a class="card" href="ZNF423.html">
+      <div class="card-head">
+        <span class="gname">ZNF423</span>
+        <span class="gtotal">957 variants</span>
+      </div>
+      <div class="acmgrow"><div class="acmgbox" style="background:var(--P)"><span class="acmgcount">12</span><span class="acmglabel">P</span></div><div class="acmgbox" style="background:var(--LP)"><span class="acmgcount">2</span><span class="acmglabel">LP</span></div><div class="acmgbox" style="background:var(--VUS)"><span class="acmgcount">495</span><span class="acmglabel">VUS</span></div><div class="acmgbox" style="background:var(--LB)"><span class="acmgcount">401</span><span class="acmglabel">LB</span></div><div class="acmgbox" style="background:var(--B)"><span class="acmgcount">47</span><span class="acmglabel">B</span></div><div class="acmgbox" style="background:var(--faint)"><span class="acmgcount">0</span><span class="acmglabel">Other</span></div></div>
+      <div class="cta">View variants &rarr;</div>
+    </a></div>
+<div class="legend">
+  <span><span class="dot" style="background:var(--P)"></span>Pathogenic (P)</span>
+  <span><span class="dot" style="background:var(--LP)"></span>Likely pathogenic (LP)</span>
+  <span><span class="dot" style="background:var(--VUS)"></span>Uncertain significance (VUS)</span>
+  <span><span class="dot" style="background:var(--LB)"></span>Likely benign (LB)</span>
+  <span><span class="dot" style="background:var(--B)"></span>Benign (B)</span>
+  <span><span class="dot" style="background:var(--faint)"></span>Other / conflicting</span>
+</div>
+</div></body></html>
